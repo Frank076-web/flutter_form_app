@@ -1,32 +1,28 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:forms_app/presentation/screens/screens.dart';
 
-class AppRouter {
-  static void navigateTo(BuildContext context, String path) {
-    context.push(path);
-  }
+final appRouter = GoRouter(
+  routes: [
 
-  static void navigateBack(BuildContext context) {
-    context.pop();
-  }
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const HomeScreen(),
+    ),
 
-  static final routerConfig = GoRouter(
-    initialLocation: '/',
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: '/cubits',
-        builder: (context, state) => const CubitCounterScreen(),
-      ),
-      GoRoute(
-        path: '/bloc',
-        builder: (context, state) => const BlocCounterScreen(),
-      ),
-    ],
-  );
-}
+    GoRoute(
+      path: '/cubits',
+      builder: (context, state) => const CubitCounterScreen(),
+    ),
+
+    GoRoute(
+      path: '/counter-bloc',
+      builder: (context, state) => const BlocCounterScreen(),
+    ),
+
+    GoRoute(
+      path: '/new-user',
+      builder: (context, state) => const RegisterScreen(),
+    ),
+
+  ]
+);
