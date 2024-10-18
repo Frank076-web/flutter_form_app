@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:forms_app/config/config.dart';
+import 'package:forms_app/presentation/blocs/blocs.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => CounterBloc()),
+      ],
+      child: const MyApp(),
+    ));
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

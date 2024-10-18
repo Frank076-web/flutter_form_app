@@ -1,10 +1,10 @@
 part of 'counter_cubit.dart';
 
-class CounterState extends Equatable {
+class CounterCubitState extends Equatable {
   final int counter;
   final int transactionCount;
 
-  const CounterState({
+  const CounterCubitState({
     required this.counter,
     required this.transactionCount,
   });
@@ -13,7 +13,7 @@ class CounterState extends Equatable {
     final int? counter,
     final int? transactionCount,
   }) =>
-      CounterState(
+      CounterCubitState(
         counter: counter ?? this.counter,
         transactionCount: transactionCount ?? this.transactionCount,
       );

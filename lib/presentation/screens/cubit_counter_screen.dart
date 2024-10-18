@@ -15,7 +15,7 @@ class CubitCounterScreen extends StatelessWidget {
         appBar: const CubitAppbar(),
         floatingActionButton: const CubitFloatingActionButton(),
         body: Center(
-          child: BlocBuilder<CounterCubit, CounterState>(
+          child: BlocBuilder<CounterCubit, CounterCubitState>(
             // buildWhen: (previous, current) => current.counter != previous.counter,
             builder: (context, state) {
               return Text('Counter value: ${state.counter}');

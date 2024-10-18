@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:forms_app/presentation/blocs/blocs.dart';
 import 'package:forms_app/presentation/widgets/widgets.dart';
 
-class BlockCounterScreen extends StatelessWidget {
-  const BlockCounterScreen({super.key});
+class BlocCounterScreen extends StatelessWidget {
+  const BlocCounterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: BlockAppbar(),
-      floatingActionButton: BlockFloatingActionButton(),
+    return Scaffold(
+      appBar: const BlockAppbar(),
+      floatingActionButton: const BlockFloatingActionButton(),
       body: Center(
-        child: Text('Counter value: '),
+        child: context.select(
+          (CounterBloc bloc) {
+            return Text('Counter value: ${bloc.state.counter}');
+          },
+        ),
       ),
     );
   }
