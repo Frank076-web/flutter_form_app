@@ -44,84 +44,47 @@ class _RegisterView extends StatelessWidget {
   }
 }
 
-class _RegisterForm extends StatefulWidget {
+class _RegisterForm extends StatelessWidget {
   const _RegisterForm();
-
-  @override
-  State<_RegisterForm> createState() => _RegisterFormState();
-}
-
-class _RegisterFormState extends State<_RegisterForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final registerBloc = context.watch<RegisterBloc>();
 
+    final username = registerBloc.state.name;
+    final password = registerBloc.state.password;
+    final email = registerBloc.state.email;
+
     return Form(
-        key: _formKey,
         child: Column(
-          children: [
-            CustomTextFormField(
-              label: 'Nombre de usuario',
-              onChanged: (value) {
-                registerBloc.add(NameChangedEvent(value));
-                _formKey.currentState?.validate();
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Campo requerido';
-                if (value.trim().isEmpty) return 'Campo requerido';
-                if (value.length < 6) return 'Más de 6 letras';
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-            CustomTextFormField(
-              label: 'Correo electrónico',
-              onChanged: (value) {
-                registerBloc.add(EmailChangedEvent(value));
-                _formKey.currentState?.validate();
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Campo requerido';
-                if (value.trim().isEmpty) return 'Campo requerido';
-                final emailRegExp = RegExp(
-                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                );
-
-                if (!emailRegExp.hasMatch(value))
-                  return 'No tiene formato de correo';
-
-                return null;
-              },
-            ),
-            const SizedBox(height: 10),
-            CustomTextFormField(
-              label: 'Contraseña',
-              obscureText: true,
-              onChanged: (value) {
-                registerBloc.add(PasswordChangedEvent(value));
-                _formKey.currentState?.validate();
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Campo requerido';
-                if (value.trim().isEmpty) return 'Campo requerido';
-                if (value.length < 6) return 'Más de 6 letras';
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
-            FilledButton.tonalIcon(
-              onPressed: () {
-                final isValid = _formKey.currentState!.validate();
-                if (!isValid) return;
-
-                registerBloc.add(FormSubmittedEvent());
-              },
-              icon: const Icon(Icons.save),
-              label: const Text('Crear usuario'),
-            ),
-          ],
-        ));
+      children: [
+        CustomTextFormField(
+          label: 'Nombre de usuario',
+          errorMessage: username.errorMessage,
+          onChanged: (value) => registerBloc.add(NameChangedEvent(value)),
+        ),
+        const SizedBox(height: 10),
+        CustomTextFormField(
+          label: 'Correo electrónico',
+          errorMessage: email.errorMessage,
+          onChanged: (value) => registerBloc.add(EmailChangedEvent(value)),
+        ),
+        const SizedBox(height: 10),
+        CustomTextFormField(
+          label: 'Contraseña',
+          obscureText: true,
+          errorMessage: password.errorMessage,
+          onChanged: (value) => registerBloc.add(PasswordChangedEvent(value)),
+        ),
+        const SizedBox(height: 20),
+        FilledButton.tonalIcon(
+          onPressed: () {
+            registerBloc.add(FormSubmittedEvent());
+          },
+          icon: const Icon(Icons.save),
+          label: const Text('Crear usuario'),
+        ),
+      ],
+    ));
   }
 }
